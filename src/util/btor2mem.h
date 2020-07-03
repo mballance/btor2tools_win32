@@ -21,16 +21,28 @@
 
 /*------------------------------------------------------------------------*/
 
+#ifdef _WIN32
+#define BTOR2_NEWN(ptr, nelems) \
+  (*(((void **)&(ptr))) = btorsim_malloc ((nelems) * sizeof *(ptr)))
+#define BTOR2_CNEWN(ptr, nelems) \
+  (*(((void **)&(ptr))) = btorsim_calloc ((nelems), sizeof *(ptr)))
+#else
 #define BTOR2_NEWN(ptr, nelems) \
   ((ptr) = (typeof(ptr)) btorsim_malloc ((nelems) * sizeof *(ptr)))
 
 #define BTOR2_CNEWN(ptr, nelems) \
   ((ptr) = (typeof(ptr)) btorsim_calloc ((nelems), sizeof *(ptr)))
+#endif
 
 #define BTOR2_CLRN(ptr, nelems) (memset ((ptr), 0, (nelems) * sizeof *(ptr)))
 
+#ifdef _WIN32
+#define BTOR2_REALLOC(p, n) \
+  (*(((void **)&(p))) = btorsim_realloc ((p), ((n) * sizeof *(p))))
+#else
 #define BTOR2_REALLOC(p, n) \
   ((p) = (typeof(p)) btorsim_realloc ((p), ((n) * sizeof *(p))))
+#endif
 
 #define BTOR2_NEW(ptr) BTOR2_NEWN ((ptr), 1)
 

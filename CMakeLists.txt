@@ -86,8 +86,10 @@ add_check_c_cxx_flag("-Wall")
 add_check_c_cxx_flag("-Wextra")
 add_check_c_cxx_flag("-Wredundant-decls")
 
-add_check_c_flag("-std=gnu99")
-add_required_cxx_flag("-std=gnu++11")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  add_check_c_flag("-std=gnu99")
+  add_required_cxx_flag("-std=gnu++11")
+endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   add_check_c_cxx_flag("-g3")

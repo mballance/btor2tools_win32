@@ -27,6 +27,12 @@
 extern "C" {
 #endif
 
+#ifdef _WIN32
+#define EXPORT __declspec(dllexport)
+#else
+#define EXPORT
+#endif
+
 /*------------------------------------------------------------------------*/
 
 #define BTOR2_FORMAT_MAXID (((int64_t) 1) << 40)
@@ -173,8 +179,8 @@ struct Btor2LineIterator
 /*------------------------------------------------------------------------*/
 /* Constructor, setting options and destructor:
  */
-Btor2Parser *btor2parser_new ();
-void btor2parser_delete (Btor2Parser *);
+EXPORT Btor2Parser *btor2parser_new ();
+EXPORT void btor2parser_delete (Btor2Parser *);
 
 /*------------------------------------------------------------------------*/
 /* The 'btor2parser_read_lines' function returns zero on failure.  In this
@@ -182,8 +188,8 @@ void btor2parser_delete (Btor2Parser *);
  * the actual read or parse error, which includes the line number where
  * the error occurred.
  */
-int32_t btor2parser_read_lines (Btor2Parser *, FILE *);
-const char *btor2parser_error (Btor2Parser *);
+EXPORT int32_t btor2parser_read_lines (Btor2Parser *, FILE *);
+EXPORT const char *btor2parser_error (Btor2Parser *);
 
 /*------------------------------------------------------------------------*/
 /* Iterate over all read format lines:
@@ -193,16 +199,16 @@ const char *btor2parser_error (Btor2Parser *);
  *   while ((l = btor2parser_iter_next (&it)))
  *     do_something_with_btor_format_line (l);
  */
-Btor2LineIterator btor2parser_iter_init (Btor2Parser *bfr);
-Btor2Line *btor2parser_iter_next (Btor2LineIterator *);
+EXPORT Btor2LineIterator btor2parser_iter_init (Btor2Parser *bfr);
+EXPORT Btor2Line *btor2parser_iter_next (Btor2LineIterator *);
 
 /*------------------------------------------------------------------------*/
 /* The reader maintains a mapping of ids to format lines.  This mapping
  * can be retrieved with the following function.  Note, however, that
  * ids might be negative and denote the negation of the actual node.
  */
-int64_t btor2parser_max_id (Btor2Parser *);
-Btor2Line *btor2parser_get_line_by_id (Btor2Parser *, int64_t id);
+EXPORT int64_t btor2parser_max_id (Btor2Parser *);
+EXPORT Btor2Line *btor2parser_get_line_by_id (Btor2Parser *, int64_t id);
 
 /*------------------------------------------------------------------------*/
 
